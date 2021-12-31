@@ -21,11 +21,11 @@ module.exports = {
         type: Sequelize.STRING(60),
         allowNull: false
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
@@ -46,11 +46,11 @@ module.exports = {
       location: {
         type: Sequelize.STRING(500)
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
@@ -83,11 +83,11 @@ module.exports = {
       release_date: {
         type: Sequelize.DATE
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }

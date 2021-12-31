@@ -8,7 +8,9 @@ router.get('/', (req, res) =>
 	Manufacturer.findAll()
 	.then(manufacturers => {
 		console.log(manufacturers);
-		res.sendStatus(200);
+		res.json({
+			manufacturers
+		});
 	})
 	.catch(err => console.log(err))
 );
@@ -55,7 +57,9 @@ router.get('/:manufacturer_key', (req, res) => {
 		})
 		.then(manufacturer => {
 			console.log(manufacturer);
-			res.sendStatus(200);
+			res.json({
+				manufacturer
+			});
 		})
 		.catch(err => console.log(err))
 });
@@ -88,7 +92,9 @@ router.get('/:manufacturer_key/phones', (req, res) => {
 		})
 		.then(phones => {
 			console.log(phones);
-			res.sendStatus(200);
+			res.json({
+				phones
+			});
 		})
 		.catch(err => console.log(err))
 });

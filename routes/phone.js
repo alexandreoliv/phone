@@ -51,7 +51,9 @@ router.get('/:phone_key', (req, res) => {
 		})
 		.then(phone => {
 			console.log(phone);
-			res.sendStatus(200);
+			res.json({
+				phone
+			});
 		})
 		.catch(err => console.log(err))
 });

@@ -12,28 +12,28 @@ const User = db.define('user', {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
-      },
-      email: {
+    },
+    email: {
         type: Sequelize.STRING(50),
         allowNull: false,
         unique: true
-      },
-      name: {
+    },
+    name: {
         type: Sequelize.STRING(255),
         allowNull: false
-      },
-      password: {
+    },
+    password: {
         type: Sequelize.STRING(60),
         allowNull: false
-      },
-      createdAt: {
+    },
+    createdAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      updatedAt: {
+    },
+    updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+    }
 });
 
 module.exports = User;

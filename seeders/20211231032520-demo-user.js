@@ -49,7 +49,7 @@ module.exports = {
           name: 'Galaxy S9',
           manufacturer_id: 1,
           quantity: 50,
-          release_date: new Date('2018-03-16T00:00'),
+          releaseDate: new Date('2018-03-16T00:00'),
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -58,7 +58,7 @@ module.exports = {
           name: 'iPhone X',
           manufacturer_id: 2,
           quantity: 30,
-          release_date: new Date('2017-11-03T00:00'),
+          releaseDate: new Date('2017-11-03T00:00'),
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -67,7 +67,7 @@ module.exports = {
           name: 'Galaxy S11',
           manufacturer_id: 1,
           quantity: 70,
-          release_date: new Date('2020-02-11T00:00'),
+          releaseDate: new Date('2020-02-11T00:00'),
           createdAt: new Date(),
           updatedAt: new Date()
         }

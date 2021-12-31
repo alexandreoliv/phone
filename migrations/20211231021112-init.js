@@ -80,7 +80,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      release_date: {
+      releaseDate: {
         type: Sequelize.DATE
       },
       createdAt: {

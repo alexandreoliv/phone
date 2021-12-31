@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
 require('dotenv').config();
+const bodyParser = require('body-parser');
 
-// Databse
+// Database
 const db = require('./config/database');
 
 // Test DB
@@ -14,6 +15,7 @@ const app = express();
 
 app.get('/', (req, res) => res.send('INDEX'));
 
+app.use(bodyParser.json());
 // App routes
 app.use('/phone', require('./routes/phones'));
 app.use('/user', require('./routes/user'));

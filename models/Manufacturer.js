@@ -12,23 +12,23 @@ const Manufacturer = db.define('manufacturer', {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
-      },
-      name: {
+    },
+    name: {
         type: Sequelize.STRING(100),
         allowNull: false,
         unique: true
-      },
-      location: {
+    },
+    location: {
         type: Sequelize.STRING(500)
-      },
-      createdAt: {
+    },
+    createdAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      updatedAt: {
+    },
+    updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+    }
 });
 
 module.exports = Manufacturer;

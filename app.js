@@ -14,8 +14,10 @@ const app = express();
 
 app.get('/', (req, res) => res.send('INDEX'));
 
-// Phone routes
+// App routes
 app.use('/phone', require('./routes/phones'));
+app.use('/user', require('./routes/user'));
+app.use('/manufacturer', require('./routes/manufacturer'));
 
 const PORT = process.env.PG_PORT || 5000;
 

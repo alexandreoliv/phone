@@ -43,5 +43,4 @@ const Phone = db.define('phone', {
     }
 });
 
-
 module.exports = Phone;

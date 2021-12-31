@@ -1,9 +1,4 @@
-const {
-	Sequelize,
-	DataTypes,
-	Model
-} = require('sequelize');
-
+const Sequelize = require('sequelize');
 const db = require('../config/database');
 
 const Manufacturer = db.define('manufacturer', {

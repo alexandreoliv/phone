@@ -9,7 +9,6 @@ const SALT_ROUNDS = 10;
 
 router.post('/register', (req, res, next) => {
 	const {
-		id,
 		email,
 		name,
 		password
@@ -36,7 +35,6 @@ router.post('/register', (req, res, next) => {
 		.then(salt => bcrypt.hash(password, salt))
 		.then(hashedPassword => {
 			return User.create({
-				id,
 				email,
 				name,
 				password: hashedPassword
@@ -45,7 +43,7 @@ router.post('/register', (req, res, next) => {
 		.then(userFromDB => {
 			console.log('Newly created user is: ', userFromDB);
 			// send the user's information to the frontend
-			// we can use also: res.status(200).json(req.user);
+			// we can also use: res.status(200).json(req.user);
 			res.status(200).json(userFromDB);
 		})
 		.catch(error => {
@@ -66,6 +64,10 @@ router.post('/register', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
+	const {
+		email,
+		password
+	} = req.body;
 	passport.authenticate('local', (err, theUser, failureDetails) => {
 		if (err) {
 			res.status(500).json({

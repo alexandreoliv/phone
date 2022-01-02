@@ -12,8 +12,7 @@ const loginCheck = () => {
 			console.log('yes, authenticated');
 			// proceed as intended
 			next();
-		}
-		else {
+		} else {
 			console.log('no, not authenticated');
 			// there is no user logged in
 			// we redirect to /login
@@ -21,7 +20,7 @@ const loginCheck = () => {
 				errorMessage: 'User is not authenticated.'
 			});
 		}
-  	}
+	}
 }
 
 passport.serializeUser((user, done) => {
@@ -32,14 +31,14 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((email, done) => {
 	console.log('passport.deserializeUser');
 	User.findOne({
-		where: {
-			email: email
-		}
-	})
-	.then(user => {
-		console.log('deserializing user: ' + user.email);
-		done(null, user);
-	});
+			where: {
+				email: email
+			}
+		})
+		.then(user => {
+			console.log('deserializing user: ' + user.email);
+			done(null, user);
+		});
 });
 
 passport.use(

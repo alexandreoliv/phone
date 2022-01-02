@@ -17,16 +17,14 @@ router.get('/', (req, res) =>
 
 router.post('/create', loginCheck(), (req, res) => {
 	const {
-		id,
 		name,
 		location,
 	} = req.body;
 	Manufacturer.create({
-			id,
 			name,
 			location
 		})
-		.then(() => res.redirect('/'))
+		.then(() => res.json(`Manufacturer ${name} created`))
 		.catch(err => console.log(err))
 });
 
@@ -44,7 +42,7 @@ router.put('/:manufacturer_key', loginCheck(), (req, res) => {
 				id: id
 			}
 		})
-		.then(() => res.redirect('/'))
+		.then(() => res.json(`Manufacturer ${name} updated`))
 		.catch(err => console.log(err))
 });
 
@@ -56,7 +54,6 @@ router.get('/:manufacturer_key', loginCheck(), (req, res) => {
 			}
 		})
 		.then(manufacturer => {
-			console.log(manufacturer);
 			res.json({
 				manufacturer
 			});
@@ -77,7 +74,7 @@ router.delete('/:manufacturer_key', loginCheck(), (req, res) => {
 						id: id
 					}
 				})
-				.then(() => res.redirect('/'))
+				.then(() => res.json(`Manufacturer deleted`))
 				.catch(err => console.log(err))
 		})
 		.catch(err => console.log(err))
@@ -91,7 +88,6 @@ router.get('/:manufacturer_key/phones', (req, res) => {
 			}
 		})
 		.then(phones => {
-			console.log(phones);
 			res.json({
 				phones
 			});

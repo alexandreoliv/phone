@@ -16,7 +16,7 @@ router.post('/create/:manufacturer_key', loginCheck(), (req, res) => {
 			manufacturer_id,
 			releaseDate
 		})
-		.then(() => res.redirect('/'))
+		.then(() => res.json(`Phone ${name} created`))
 		.catch(err => console.log(err))
 });
 
@@ -36,7 +36,7 @@ router.put('/:phone_key', loginCheck(), (req, res) => {
 				id: id
 			}
 		})
-		.then(() => res.redirect('/'))
+		.then(() => res.json(`Phone ${name} updated`))
 		.catch(err => console.log(err))
 });
 
@@ -63,7 +63,7 @@ router.delete('/:phone_key', loginCheck(), (req, res) => {
 				id: id
 			}
 		})
-		.then(() => res.redirect('/'))
+		.then(() => res.json(`Phone deleted`))
 		.catch(err => console.log(err))
 });
 

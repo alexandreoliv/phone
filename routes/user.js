@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/database');
 const User = require('../models/User');
-
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
@@ -42,33 +40,20 @@ router.post('/register', (req, res, next) => {
 		})
 		.then(userFromDB => {
 			console.log('Newly created user is: ', userFromDB);
-			// send the user's information to the frontend
-			// we can also use: res.status(200).json(req.user);
 			res.status(200).json(userFromDB);
 		})
 		.catch(error => {
-			// if (error instanceof mongoose.Error.ValidationError) {
-			// 	res.status(500).json({
-			// 		errorMessage: error.message
-			// 	});
-			// }
-			if (error.code === 11000) {
-				res.status(500).json({
-					errorMessage: 'Username and email need to be unique. Either username or email is already used.'
-				});
-			} else {
-				next(error);
-			}
-			console.log(error);
-		}); // close .catch()
+			res.status(500).json({
+				errorMessage: 'Username and email need to be unique. Either username or email is already used.'
+			});
+			next(error);
+		});
 });
 
 router.post('/login', (req, res, next) => {
-	const {
-		email,
-		password
-	} = req.body;
-	passport.authenticate('local', (err, theUser, failureDetails) => {
+	console.log('router.post /login');
+	passport.authenticate('local', (err, user, failureDetails) => {
+		console.log('passport.authenticate');
 		if (err) {
 			res.status(500).json({
 				message: 'Something went wrong authenticating user'
@@ -76,7 +61,7 @@ router.post('/login', (req, res, next) => {
 			return;
 		}
 
-		if (!theUser) {
+		if (!user) {
 			// "failureDetails" contains the error messages
 			// from our logic in "LocalStrategy" { message: '...' }.
 			res.status(401).json(failureDetails);
@@ -84,7 +69,7 @@ router.post('/login', (req, res, next) => {
 		}
 
 		// save user in session
-		req.login(theUser, err => {
+		req.login(user, err => {
 			if (err) {
 				res.status(500).json({
 					message: 'Session save went bad.'
@@ -93,13 +78,14 @@ router.post('/login', (req, res, next) => {
 			}
 
 			// we are now logged in (that's why we can also send req.user)
-			res.status(200).json(theUser);
+			res.status(200).json(user);
 		});
 	})(req, res, next);
 });
 
 router.post('/logout', (req, res, next) => {
 	// req.logout() is defined by passport
+	console.log('router.post /logout');
 	req.logout();
 	res.status(200).json({
 		message: 'Log out success!'
@@ -108,6 +94,7 @@ router.post('/logout', (req, res, next) => {
 
 router.get('/loggedin', (req, res, next) => {
 	// req.isAuthenticated() is defined by passport
+	console.log('router.post /loggedin');
 	if (req.isAuthenticated()) {
 		res.status(200).json(req.user);
 		return;

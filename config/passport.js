@@ -1,47 +1,55 @@
-const User = require('../models/User');
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcrypt');
 const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
-passport.serializeUser((loggedInUser, cb) => {
-	cb(null, loggedInUser._id);
+passport.serializeUser((user, done) => {
+	console.log('passport.serializeUser');
+	done(null, user.email);
 });
 
-passport.deserializeUser((userIdFromSession, cb) => {
-	User.findById(userIdFromSession, (err, userDocument) => {
-		if (err) {
-			cb(err);
-			return;
+passport.deserializeUser((email, done) => {
+	console.log('passport.deserializeUser');
+	User.findOne({
+		where: {
+			email: email
 		}
-		cb(null, userDocument);
+	})
+	.then(user => {
+		console.log('deserializing user: ' + user.email);
+		done(null, user);
 	});
 });
 
 passport.use(
-	new LocalStrategy((username, password, next) => {
+	new LocalStrategy({
+		usernameField: 'email',
+		passwordField: 'password'
+	}, (email, password, done) => {
+		// console.log(email, password);
+		console.log('passport.use');
 		User.findOne({
-			username
-		}, (err, foundUser) => {
-			if (err) {
-				next(err);
-				return;
-			}
+				where: {
+					email: email
+				}
+			})
+			.then(foundUser => {
+				// console.log("email addres: " + foundUser.email);
+				if (!foundUser) {
+					return done(null, false, {
+						message: 'Incorrect username.'
+					});
+				}
 
-			if (!foundUser) {
-				next(null, false, {
-					message: 'Incorrect username.'
-				});
-				return;
-			}
+				if (!bcrypt.compareSync(password, foundUser.password)) {
+					return done(null, false, {
+						message: 'Incorrect password.'
+					});
+				}
 
-			if (!bcrypt.compareSync(password, foundUser.password)) {
-				next(null, false, {
-					message: 'Incorrect password.'
-				});
-				return;
-			}
-
-			next(null, foundUser);
-		});
+				console.log('returning foundUser: ', foundUser);
+				return done(null, foundUser);
+			})
+			.catch(err => console.log("err"))
 	})
 );

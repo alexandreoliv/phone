@@ -1,6 +1,5 @@
 // Dependencies
 const express = require('express');
-const path = require('path');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const app = express();
@@ -16,8 +15,7 @@ db.authenticate()
 // Session configuration
 const session = require('express-session');
 require('./config/passport');
-// const MongoStore = require('connect-mongo');
-// const DB_URL = process.env.MONGODB_URI;
+
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
@@ -31,7 +29,6 @@ app.use(
 )
 
 // Passport config
-const User = require("./models/User");
 const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());

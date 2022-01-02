@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/database');
 const Manufacturer = require('../models/Manufacturer');
 const Phone = require('../models/Phone');
+const loginCheck = require('../config/passport');
 
 router.get('/', (req, res) =>
 	Manufacturer.findAll()
@@ -15,7 +15,7 @@ router.get('/', (req, res) =>
 	.catch(err => console.log(err))
 );
 
-router.post('/create', (req, res) => {
+router.post('/create', loginCheck(), (req, res) => {
 	const {
 		id,
 		name,
@@ -30,7 +30,7 @@ router.post('/create', (req, res) => {
 		.catch(err => console.log(err))
 });
 
-router.put('/:manufacturer_key', (req, res) => {
+router.put('/:manufacturer_key', loginCheck(), (req, res) => {
 	const {
 		name,
 		location
@@ -48,7 +48,7 @@ router.put('/:manufacturer_key', (req, res) => {
 		.catch(err => console.log(err))
 });
 
-router.get('/:manufacturer_key', (req, res) => {
+router.get('/:manufacturer_key', loginCheck(), (req, res) => {
 	const id = req.params.manufacturer_key;
 	Manufacturer.findOne({
 			where: {
@@ -64,7 +64,7 @@ router.get('/:manufacturer_key', (req, res) => {
 		.catch(err => console.log(err))
 });
 
-router.delete('/:manufacturer_key', (req, res) => {
+router.delete('/:manufacturer_key', loginCheck(), (req, res) => {
 	const id = req.params.manufacturer_key;
 	Phone.destroy({
 			where: {

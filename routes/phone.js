@@ -1,18 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/database');
 const Phone = require('../models/Phone');
+const loginCheck = require('../config/passport');
 
-router.post('/create/:manufacturer_key', (req, res) => {
+router.post('/create/:manufacturer_key', loginCheck(), (req, res) => {
 	const {
-		id,
 		name,
 		quantity,
 		releaseDate
 	} = req.body;
 	const manufacturer_id = req.params.manufacturer_key;
 	Phone.create({
-			id,
 			name,
 			quantity,
 			manufacturer_id,
@@ -22,7 +20,7 @@ router.post('/create/:manufacturer_key', (req, res) => {
 		.catch(err => console.log(err))
 });
 
-router.put('/:phone_key', (req, res) => {
+router.put('/:phone_key', loginCheck(), (req, res) => {
 	const {
 		name,
 		quantity,
@@ -58,7 +56,7 @@ router.get('/:phone_key', (req, res) => {
 		.catch(err => console.log(err))
 });
 
-router.delete('/:phone_key', (req, res) => {
+router.delete('/:phone_key', loginCheck(), (req, res) => {
 	const id = req.params.phone_key;
 	Phone.destroy({
 			where: {

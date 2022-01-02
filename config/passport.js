@@ -3,6 +3,27 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
+// Middleware to check if the user is logged in
+const loginCheck = () => {
+	return (req, res, next) => {
+		// is there a logged in user - using passport you can use req.isAuthenticated()
+		console.log('checking if authenticated');
+		if (req.isAuthenticated()) {
+			console.log('yes, authenticated');
+			// proceed as intended
+			next();
+		}
+		else {
+			console.log('no, not authenticated');
+			// there is no user logged in
+			// we redirect to /login
+			res.status(500).json({
+				errorMessage: 'User is not authenticated.'
+			});
+		}
+  	}
+}
+
 passport.serializeUser((user, done) => {
 	console.log('passport.serializeUser');
 	done(null, user.email);
@@ -53,3 +74,5 @@ passport.use(
 			.catch(err => console.log("err"))
 	})
 );
+
+module.exports = loginCheck;

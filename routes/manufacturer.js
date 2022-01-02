@@ -7,8 +7,7 @@ const loginCheck = require('../config/passport');
 router.get('/', (req, res) =>
 	Manufacturer.findAll()
 	.then(manufacturers => {
-		console.log(manufacturers);
-		res.json({
+		res.status(200).json({
 			manufacturers
 		});
 	})
@@ -20,11 +19,19 @@ router.post('/create', loginCheck(), (req, res) => {
 		name,
 		location,
 	} = req.body;
+
+	if (!name) {
+		res.status(400).json({
+			message: 'Please provide name of manufacturer'
+		});
+		return;
+	}
+
 	Manufacturer.create({
 			name,
 			location
 		})
-		.then(() => res.json(`Manufacturer ${name} created`))
+		.then(() => res.status(200).json(`Manufacturer ${name} created`))
 		.catch(err => console.log(err))
 });
 
@@ -34,6 +41,14 @@ router.put('/:manufacturer_key', loginCheck(), (req, res) => {
 		location
 	} = req.body;
 	const id = req.params.manufacturer_key;
+
+	if (!name) {
+		res.status(400).json({
+			message: 'Please provide name of manufacturer'
+		});
+		return;
+	}
+
 	Manufacturer.update({
 			name,
 			location
@@ -42,19 +57,20 @@ router.put('/:manufacturer_key', loginCheck(), (req, res) => {
 				id: id
 			}
 		})
-		.then(() => res.json(`Manufacturer ${name} updated`))
+		.then(() => res.status(200).json(`Manufacturer ${name} updated`))
 		.catch(err => console.log(err))
 });
 
 router.get('/:manufacturer_key', loginCheck(), (req, res) => {
 	const id = req.params.manufacturer_key;
+
 	Manufacturer.findOne({
 			where: {
 				id: id
 			}
 		})
 		.then(manufacturer => {
-			res.json({
+			res.status(200).json({
 				manufacturer
 			});
 		})
@@ -63,6 +79,7 @@ router.get('/:manufacturer_key', loginCheck(), (req, res) => {
 
 router.delete('/:manufacturer_key', loginCheck(), (req, res) => {
 	const id = req.params.manufacturer_key;
+
 	Phone.destroy({
 			where: {
 				manufacturer_id: id
@@ -74,7 +91,7 @@ router.delete('/:manufacturer_key', loginCheck(), (req, res) => {
 						id: id
 					}
 				})
-				.then(() => res.json(`Manufacturer deleted`))
+				.then(() => res.status(200).json('Manufacturer deleted'))
 				.catch(err => console.log(err))
 		})
 		.catch(err => console.log(err))
@@ -82,13 +99,14 @@ router.delete('/:manufacturer_key', loginCheck(), (req, res) => {
 
 router.get('/:manufacturer_key/phones', (req, res) => {
 	const id = req.params.manufacturer_key;
+
 	Phone.findAll({
 			where: {
 				manufacturer_id: id
 			}
 		})
 		.then(phones => {
-			res.json({
+			res.status(200).json({
 				phones
 			});
 		})

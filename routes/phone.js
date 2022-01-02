@@ -10,13 +10,21 @@ router.post('/create/:manufacturer_key', loginCheck(), (req, res) => {
 		releaseDate
 	} = req.body;
 	const manufacturer_id = req.params.manufacturer_key;
+
+	if (!name || !quantity) {
+		res.status(400).json({
+			message: 'Please provide name and quantity'
+		});
+		return;
+	}
+
 	Phone.create({
 			name,
 			quantity,
 			manufacturer_id,
 			releaseDate
 		})
-		.then(() => res.json(`Phone ${name} created`))
+		.then(() => res.status(200).json(`Phone ${name} created`))
 		.catch(err => console.log(err))
 });
 
@@ -27,6 +35,13 @@ router.put('/:phone_key', loginCheck(), (req, res) => {
 		releaseDate
 	} = req.body;
 	const id = req.params.phone_key;
+
+	if (!name || !quantity) {
+		res.status(400).json({
+			message: 'Please provide name and quantity'
+		});
+		return;
+	}
 	Phone.update({
 			name,
 			quantity,
@@ -36,20 +51,20 @@ router.put('/:phone_key', loginCheck(), (req, res) => {
 				id: id
 			}
 		})
-		.then(() => res.json(`Phone ${name} updated`))
+		.then(() => res.status(200).json(`Phone ${name} updated`))
 		.catch(err => console.log(err))
 });
 
 router.get('/:phone_key', (req, res) => {
 	const id = req.params.phone_key;
+
 	Phone.findOne({
 			where: {
 				id: id
 			}
 		})
 		.then(phone => {
-			console.log(phone);
-			res.json({
+			res.status(200).json({
 				phone
 			});
 		})
@@ -58,12 +73,13 @@ router.get('/:phone_key', (req, res) => {
 
 router.delete('/:phone_key', loginCheck(), (req, res) => {
 	const id = req.params.phone_key;
+
 	Phone.destroy({
 			where: {
 				id: id
 			}
 		})
-		.then(() => res.json(`Phone deleted`))
+		.then(() => res.status(200).json(`Phone deleted`))
 		.catch(err => console.log(err))
 });
 

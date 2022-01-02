@@ -10,7 +10,8 @@
     "undo-migrate": "npx sequelize-cli db:migrate:undo",
     "make-seed": "npx sequelize-cli seed:generate --name demo-user",
     "run-seed": "npx sequelize-cli db:seed:all",
-    "undo-seed": "npx sequelize-cli db:seed:undo"
+    "undo-seed": "npx sequelize-cli db:seed:undo",
+    "test": "jest"
   },
   "author": "Alexandre Oliveira",
   "license": "ISC",
@@ -27,7 +28,9 @@
     "sequelize": "^6.12.4"
   },
   "devDependencies": {
+    "jest": "^27.4.5",
     "nodemon": "^2.0.15",
-    "sequelize-cli": "^6.3.0"
+    "sequelize-cli": "^6.3.0",
+    "supertest": "^6.1.6"
   }
 }

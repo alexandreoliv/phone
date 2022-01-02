@@ -23,7 +23,7 @@ router.post('/register', (req, res, next) => {
 	const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
 	if (!regex.test(password)) {
 		res.status(500).json({
-			errorMessage: 'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.'
+			errorMessage: 'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter'
 		});
 		return;
 	}
@@ -39,12 +39,11 @@ router.post('/register', (req, res, next) => {
 			});
 		})
 		.then(userFromDB => {
-			console.log('Newly created user is: ', userFromDB);
 			res.status(200).json(userFromDB);
 		})
 		.catch(error => {
 			res.status(500).json({
-				errorMessage: 'Username and email need to be unique. Either username or email is already used.'
+				errorMessage: 'Username and email need to be unique. Either username or email is already used'
 			});
 			next(error);
 		});
@@ -52,6 +51,14 @@ router.post('/register', (req, res, next) => {
 
 router.post('/login', (req, res, next) => {
 	console.log('router.post /login');
+
+	if (!req.body.email || !req.body.password) {
+		res.status(400).json({
+			message: 'Please provide username and password'
+		});
+		return;
+	}
+
 	passport.authenticate('local', (err, user, failureDetails) => {
 		console.log('passport.authenticate');
 		if (err) {
@@ -62,22 +69,20 @@ router.post('/login', (req, res, next) => {
 		}
 
 		if (!user) {
-			// "failureDetails" contains the error messages
-			// from our logic in "LocalStrategy" { message: '...' }.
+			// "failureDetails" contains the error messages from "LocalStrategy" { message: '...' }
 			res.status(401).json(failureDetails);
 			return;
 		}
 
-		// save user in session
+		// Save user in the session
 		req.login(user, err => {
 			if (err) {
 				res.status(500).json({
-					message: 'Session save went bad.'
+					message: 'Session save went bad'
 				});
 				return;
 			}
 
-			// we are now logged in (that's why we can also send req.user)
 			res.status(200).json(user);
 		});
 	})(req, res, next);
@@ -88,7 +93,7 @@ router.post('/logout', (req, res, next) => {
 	console.log('router.post /logout');
 	req.logout();
 	res.status(200).json({
-		message: 'Log out success!'
+		message: 'Logged out successfully'
 	});
 });
 

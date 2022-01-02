@@ -15,11 +15,9 @@ db.authenticate()
 // Session configuration
 const session = require('express-session');
 require('./config/passport');
-
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
-		// for how long is a user automatically logged in 
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24
 		},
